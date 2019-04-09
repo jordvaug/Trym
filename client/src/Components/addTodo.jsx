@@ -55,7 +55,7 @@ class AddTodo extends Component {
       <Modal isOpen={this.state.toggle}>
         <ModalHeader> Todo Task </ModalHeader>
         <ModalBody>
-          <Form onSubmit={this.handleSubmit}>
+          <form onSubmit={this.handleSubmit}>
             <FormGroup>
               <Label for="Title">Title</Label>
               <Input
@@ -99,7 +99,7 @@ class AddTodo extends Component {
                 Save{" "}
               </Button>
             </ModalFooter>
-          </Form>
+          </form>
         </ModalBody>
       </Modal>
     );

@@ -12,9 +12,11 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import environ
-
-env = environ.Env(DEBUG=(bool, False),)
-root = environ.Path(__file__) - 1
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
+# reading .env file
 environ.Env.read_env()
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'environ',
     'corsheaders',
     'rest_framework',
     'todo'
@@ -86,7 +89,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'todo',
-        'USER': env('USER),
+        'USER': env('USER'),
         'PASSWORD': env('PASSWORD'),
         'HOST':'',
         'PORT': '',
