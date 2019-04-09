@@ -1,13 +1,11 @@
 import React, { Component } from "react";
 import axios from "axios";
-import qs from "qs";
 import {
   Button,
   Modal,
   ModalHeader,
   ModalBody,
   ModalFooter,
-  Form,
   FormGroup,
   Input,
   Label
@@ -25,22 +23,16 @@ class AddTodo extends Component {
     this.setState({ [event.target.name]: event.target.value });
   };
 
-  handleSubmit(event) {
-    event.preventDefault();
-
+  handleSubmit() {
     let task = {
       title: this.state.Title,
       description: this.state.Description,
       completed: this.state.completed
     };
+    console.log(task);
     //add the todo item via the API
     axios
-      .post(`http://localhost:8000/api/add`, qs.stringify(task), {
-        headers: {
-          "Content-type": "application/x-www-form-urlencoded",
-          "Access-Control-Allow-Origin": "*"
-        }
-      })
+      .post(`http://localhost:8000/api/todos/`, task)
       .catch(err => console.log(err));
 
     this.setState({ toggle: false });
@@ -94,7 +86,12 @@ class AddTodo extends Component {
                 {" "}
                 Cancel{" "}
               </Button>
-              <Button color="success" onClick={this.handleSubmit}>
+              <Button
+                color="success"
+                onClick={() => {
+                  this.handleSubmit();
+                }}
+              >
                 {" "}
                 Save{" "}
               </Button>

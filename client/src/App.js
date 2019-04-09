@@ -1,19 +1,21 @@
 import React, { Component } from "react";
 import AddTodo from "./Components/addTodo";
 import axios from "axios";
-import qs from "qs";
+import EditTodo from "./Components/editTodo";
 
 class App extends Component {
   state = {
     viewCompleted: false,
     todoList: [],
-    viewAdd: false
+    viewAdd: false,
+    viewEdit: false,
+    task: ""
   };
 
   componentDidMount() {
     //get all the todos from the API
     axios
-      .get(`http://localhost:8000/api/todos`, {
+      .get(`/api/todos/`, {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
           Accept: "application/json"
@@ -26,20 +28,36 @@ class App extends Component {
       .catch(err => console.log(err));
   }
 
+  refreshList = () => {
+    axios
+      .get(`/api/todos/`, {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+          Accept: "application/json"
+        }
+      })
+      .then(res => {
+        const todos = res.data;
+        this.setState({ todoList: todos });
+      })
+      .catch(err => console.log(err));
+  };
+
+  handleEdit = item => {
+    this.setState({ viewEdit: true });
+    this.setState({ task: item });
+  };
+
   handleDelete = item => {
     axios
-      .delete(
-        `http://localhost:8000/api/todos/` + item.id,
-        qs.stringify(item),
-        {
-          headers: {
-            "Content-type": "application/x-www-form-urlencoded",
-            "Access-Control-Allow-Origin": "*"
-          }
+      .delete(`http://localhost:8000/api/todos/` + item.id + `/`, item, {
+        headers: {
+          "Content-type": "application/x-www-form-urlencoded",
+          "Access-Control-Allow-Origin": "*"
         }
-      )
+      })
+      .then(res => this.refreshList())
       .catch(err => console.log(err));
-    alert("Task deleted");
   };
 
   handleClick = () => {
@@ -52,6 +70,7 @@ class App extends Component {
     }
     return this.setState({ viewCompleted: false });
   };
+
   renderTabList = () => {
     return (
       <div className="my-5 tab-list">
@@ -70,6 +89,7 @@ class App extends Component {
       </div>
     );
   };
+
   renderItems = () => {
     const { viewCompleted } = this.state;
     const newItems = this.state.todoList.filter(
@@ -89,10 +109,20 @@ class App extends Component {
           {item.title}
         </span>
         <span>
-          <button className="btn btn-secondary mr-2"> Edit </button>
+          <button
+            className="btn btn-secondary mr-2"
+            onClick={() => {
+              this.handleEdit({ item });
+            }}
+          >
+            {" "}
+            Edit{" "}
+          </button>
           <button
             className="btn btn-danger"
-            onClick={this.handleDelete({ item })}
+            onClick={() => {
+              this.handleDelete({ item });
+            }}
           >
             Delete{" "}
           </button>
@@ -100,6 +130,7 @@ class App extends Component {
       </li>
     ));
   };
+
   render() {
     return (
       <div>
@@ -130,6 +161,7 @@ class App extends Component {
               <AddTodo />
             </div>
           ) : null}
+          {this.state.viewEdit ? <EditTodo task={this.state.task} /> : null}
         </main>
       </div>
     );
