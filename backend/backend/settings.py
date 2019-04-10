@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import django_heroku
 import environ
 env = environ.Env(
     # set casting, default value
@@ -44,10 +45,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.admindocs',
     'environ',
     'corsheaders',
     'rest_framework',
-    'todo'
+    'todo',
+    'django-pytest'
 ]
 
 MIDDLEWARE = [
@@ -138,3 +141,5 @@ STATIC_URL = '/static/'
 CORS_ORIGIN_WHITELIST = (
     'localhost:3000/'
 )
+# Activate Django-Heroku.
+django_heroku.settings(locals())
