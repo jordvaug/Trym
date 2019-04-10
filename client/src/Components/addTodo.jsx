@@ -36,6 +36,7 @@ class AddTodo extends Component {
       .catch(err => console.log(err));
 
     this.setState({ toggle: false });
+    this.props.appCallback(true);
   }
 
   cancelSubmit = () => {

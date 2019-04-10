@@ -21,26 +21,20 @@ class EditTodo extends Component {
     toggle: true
   };
 
-  componentDidMount() {}
-
   handleChange = event => {
     this.setState({ [event.target.name]: event.target.value });
   };
 
+  handleChangeCheckbox = () => {
+    this.setState({ completed: !this.state.completed });
+  };
+
   handleEdit = item => {
-    axios
-      .put(
-        `http://localhost:8000/api/todos/` + this.state.task.id + `/`,
-        item,
-        {
-          headers: {
-            "Content-type": "application/x-www-form-urlencoded",
-            "Access-Control-Allow-Origin": "*"
-          }
-        }
-      )
-      .then(res => this.refreshList())
-      .catch(err => console.log(err));
+    let url = "http://localhost:8000/api/todos/" + this.state.task.id + "/";
+    console.log(url);
+    axios.put(url, item).catch(err => console.log(err));
+    this.setState({ toggle: false });
+    this.props.appCallback(true);
   };
 
   cancelSubmit = () => {
@@ -90,7 +84,7 @@ class EditTodo extends Component {
                   type="checkbox"
                   name="completed"
                   checked={this.state.completed}
-                  onChange={this.handleChange}
+                  onChange={this.handleChangeCheckbox}
                 />
                 Completed
               </Label>

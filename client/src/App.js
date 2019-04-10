@@ -15,12 +15,7 @@ class App extends Component {
   componentDidMount() {
     //get all the todos from the API
     axios
-      .get(`/api/todos/`, {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-          Accept: "application/json"
-        }
-      })
+      .get(`/api/todos/`)
       .then(res => {
         const todos = res.data;
         this.setState({ todoList: todos });
@@ -43,19 +38,22 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
+  refreshCallback = value => {
+    if (value) {
+      this.refreshList();
+    }
+    this.setState({ viewAdd: false, viewEdit: false });
+  };
+
   handleEdit = item => {
     this.setState({ viewEdit: true });
     this.setState({ task: item });
   };
 
   handleDelete = item => {
+    console.log(item);
     axios
-      .delete(`http://localhost:8000/api/todos/` + item.id + `/`, item, {
-        headers: {
-          "Content-type": "application/x-www-form-urlencoded",
-          "Access-Control-Allow-Origin": "*"
-        }
-      })
+      .delete(`http://localhost:8000/api/todos/` + item.item.id + `/`, item)
       .then(res => this.refreshList())
       .catch(err => console.log(err));
   };
@@ -158,10 +156,15 @@ class App extends Component {
           </div>
           {this.state.viewAdd ? (
             <div>
-              <AddTodo />
+              <AddTodo appCallback={this.refreshCallback} />
             </div>
           ) : null}
-          {this.state.viewEdit ? <EditTodo task={this.state.task} /> : null}
+          {this.state.viewEdit ? (
+            <EditTodo
+              appCallback={this.refreshCallback}
+              task={this.state.task}
+            />
+          ) : null}
         </main>
       </div>
     );
