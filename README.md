@@ -1,7 +1,7 @@
 # Trym
 Django backend, MySQL database, React frontend todo app.
 
-#To get started:
+**To get started:**
 
 1.	Open a virtual environment using the pipenv command: pipenv shell
 2.	Next cd into the backend folder and run the server with: python manage.py runserver
