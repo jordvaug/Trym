@@ -50,6 +50,7 @@ class EditTodo extends Component {
     };
     //edit the item
     this.handleEdit(task);
+    this.props.appCallback(true);
   }
 
   render() {
@@ -90,11 +91,11 @@ class EditTodo extends Component {
               </Label>
             </FormGroup>
             <ModalFooter>
-              <Button onClick={this.cancelSubmit} color="danger">
+              <button onClick={this.cancelSubmit} color="danger">
                 {" "}
                 Cancel{" "}
-              </Button>
-              <Button
+              </button>
+              <button
                 color="success"
                 onClick={() => {
                   this.handleSubmit();
@@ -102,7 +103,7 @@ class EditTodo extends Component {
               >
                 {" "}
                 Save{" "}
-              </Button>
+              </button>
             </ModalFooter>
           </form>
         </ModalBody>

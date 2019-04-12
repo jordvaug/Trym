@@ -29,11 +29,9 @@ class AddTodo extends Component {
       description: this.state.Description,
       completed: this.state.completed
     };
-    console.log(task);
+
     //add the todo item via the API
-    axios
-      .post(`http://localhost:8000/api/todos/`, task)
-      .catch(err => console.log(err));
+    axios.post(`/api/todos/`, task).catch(err => console.log(err));
 
     this.setState({ toggle: false });
     this.props.appCallback(true);

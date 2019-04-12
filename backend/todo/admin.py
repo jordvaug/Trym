@@ -5,6 +5,5 @@ from .models import Todo
 class TodoAdmin(admin.ModelAdmin):
     list_display = ('title', 'description', 'completed')
 
-
-# Register your models here.
+#Register the model
 admin.site.register(Todo, TodoAdmin)

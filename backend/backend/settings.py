@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-import django_heroku
 import environ
 env = environ.Env(
     # set casting, default value
@@ -20,8 +19,10 @@ env = environ.Env(
 # reading .env file
 environ.Env.read_env()
 
-# Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+#White noise config for static files
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 
 # Quick-start development settings - unsuitable for production
@@ -33,7 +34,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 
 # Application definition
@@ -46,11 +47,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.admindocs',
-    'environ',
     'corsheaders',
     'rest_framework',
     'todo',
-    'django-pytest'
 ]
 
 MIDDLEWARE = [
@@ -91,11 +90,11 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'todo',
-        'USER': env('USER'),
+        'NAME': 'user',
+        'USER': 'user',
         'PASSWORD': env('PASSWORD'),
-        'HOST':'',
-        'PORT': '',
+        'HOST':env('HOST'),
+        'PORT': '3306',
     }
 }
 
@@ -141,5 +140,4 @@ STATIC_URL = '/static/'
 CORS_ORIGIN_WHITELIST = (
     'localhost:3000/'
 )
-# Activate Django-Heroku.
-django_heroku.settings(locals())
+
