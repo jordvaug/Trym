@@ -9,7 +9,7 @@ Django backend, MySQL database, React frontend todo app.
 4.	Testing can be run using the command: “pytest” in the root directory in a powershell terminal.
 5.	To test the react frontend navigate to the client folder and run command: npm test
 6.	To run the postman test, install postman, and then click the link in the github readme. It will show tests for all CRUD endpoints and pass/fail tests for each.
-7.	The Django backend is written using Django admin, so the API can be interacted with through that framework. With the server running navigate to: http://localhost:8000/admin and sign in with the credential at the bottom of this page.
+7.	The Django backend is written using Django admin, so the API can be interacted with through that framework. With the server running navigate to: http://localhost:8000/admin and sign in with the credentials provided.
 8.	Backend documentation can be found at: http://localhost:8000/admin/docs
 
 
